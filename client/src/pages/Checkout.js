@@ -156,7 +156,7 @@ const Checkout = ({ history }) => {
   };
 
   return (
-    <div className="row" style={{margin:'20px'}}>
+    <div className="row" style={{margin:'20px'}} style={{marginTop:'78px'}}>
       <div className="col-md-6">
         <h4>Delivery Address</h4>
         <br />

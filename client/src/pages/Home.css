@@ -1,0 +1,30 @@
+.cont {
+    position: relative;
+    width: 100%;
+  }
+  
+  /* Make the image responsive */
+  .cont img {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Style the button and place it in the middle of the cont/image */
+  .cont .btn {
+    position: absolute;
+    top: 70%;
+    left: 60%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: rgb(136, 118, 118);
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .cont .btn:hover {
+    background-color: rgb(87, 67, 67)
+  }

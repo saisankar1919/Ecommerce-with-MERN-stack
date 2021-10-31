@@ -6,6 +6,8 @@ import { MailOutlined, GoogleOutlined } from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { createOrUpdateUser } from "../../functions/auth";
+// import Box from '@mui/material/Box';
+// import TextField from '@mui/material/TextField';
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState("");
@@ -122,6 +124,7 @@ const Login = ({ history }) => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Your password"
+          
         />
       </div>
 
@@ -135,6 +138,7 @@ const Login = ({ history }) => {
         icon={<MailOutlined />}
         size="large"
         disabled={!email || password.length < 6}
+        style={{backgroundColor:'rgb(87, 67, 67)', color:'white'}}
       >
         Login with Email/Password
       </Button>
@@ -163,10 +167,12 @@ const Login = ({ history }) => {
           >
             Login with Google
           </Button> */}
-
-          <Link to="/forgot/password" className="float-right text-danger">
+       
+          <Link to="/forgot/password" style={{color:'rgb(87, 67, 67)'}} className="float-right">
             Forgot Password
           </Link>
+       
+          
         </div>
       </div>
     </div>

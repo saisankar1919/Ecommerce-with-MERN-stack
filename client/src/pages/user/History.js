@@ -80,7 +80,7 @@ const History = () => {
     ));
 
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" style={{marginTop:'78px'}}>
       <div className="row">
         <div className="col-md-2">
           <UserNav />

@@ -6,6 +6,9 @@ import { Link } from "react-router-dom";
 import { showAverage } from "../../functions/rating";
 import _ from "lodash";
 import { useSelector, useDispatch } from "react-redux";
+import { MdShoppingCart } from "react-icons/md";
+import { AiFillEye } from "react-icons/ai";
+import "./ProductCard.css";
 
 const { Meta } = Card;
 
@@ -53,45 +56,46 @@ const ProductCard = ({ product }) => {
   // destructure
   const { images, title, description, slug, price } = product;
   return (
-    <>
-      {product && product.ratings && product.ratings.length > 0 ? (
-        showAverage(product)
-      ) : (
-        <div className="text-center pt-1 pb-3">No rating yet</div>
-      )}
-
-      <Card
+    <div>
+      <Card className="cardHover" style={{ boxShadow: "5px 5px 8px 5px #555" }}
         cover={
           <img
             src={images && images.length ? images[0].url : laptop}
-            style={{ height: "200px", objectFit: "cover" }}
-            className="p-1"
+            style={{ height: "400px", objectFit: "cover",boxShadow: "5px 5px 8px 5px #555" }}
+            className=""
           />
         }
         actions={[
-          <button style={{padding:'10px', backgroundColor:'rgb(0 67 111)',border:'none',borderRadius:'7px'}}>
-             <Link style={{color:'white'}} to={`/product/${slug}`}>
-            {/* <EyeOutlined className="text-warning" /> <br /> */}
-             View Product
-          </Link>
-          </button>,
-         <button style={{padding:'10px', backgroundColor:'rgb(0 67 111)',border:'none',borderRadius:'7px'}}>
-           <Tooltip title={tooltip}>
-            <a style={{color:'white'}} onClick={handleAddToCart} disabled={product.quantity < 1}>
-              {/* <ShoppingCartOutlined className="text-danger" /> <br /> */}
-              {product.quantity < 1 ? "Out of stock" : "Add to Cart"}
-            </a>
-          </Tooltip>
-         </button>
-          ,
+          <Link style={{ color: "", fontSize: "30px" }} to={`/product/${slug}`}>
+            <AiFillEye style={{ color: "rgb(87, 67, 67)" }} />
+          </Link>,
+         
+            <div
+              style={{ color: "", fontSize: "30px" }}
+              onClick={handleAddToCart}
+              disabled={product.quantity < 1}
+            >
+              {product.quantity < 1 ? (
+                "Out of stock"
+              ) : (
+                <MdShoppingCart style={{ color: "rgb(87, 67, 67)" }} />
+              )}
+            </div>,
         ]}
       >
+       {product && product.ratings && product.ratings.length > 0 ? (
+          showAverage(product)
+        ) : (
+          <div className="pt-1 pb-3">No rating yet</div>
+        )}
         <Meta
           title={`${title} - $${price}`}
-          description={`${description && description.substring(0, 30)}...`}
+          // description={`${description && description.substring(0, 30)}...`}
+           
         />
+        
       </Card>
-    </>
+    </div>
   );
 };
 

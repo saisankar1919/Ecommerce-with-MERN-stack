@@ -92,6 +92,7 @@ const ProductCardInCheckout = ({ p }) => {
 
   return (
     <tbody>
+      
       <tr>
         <td style={{maxWidth:'20px'}}>
           <div style={{ width: "100px", height: "auto" }}>

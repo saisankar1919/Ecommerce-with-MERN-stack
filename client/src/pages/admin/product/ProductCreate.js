@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminNav from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { createProduct } from "../../../functions/product";
 import ProductCreateForm from "../../../components/forms/ProductCreateForm";
 import { getCategories, getCategorySubs } from "../../../functions/category";
@@ -46,6 +47,8 @@ const ProductCreate = () => {
   const [showSub, setShowSub] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const history = useHistory();
+
   // redux
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -62,7 +65,8 @@ const ProductCreate = () => {
       .then((res) => {
         console.log(res);
         window.alert(`"${res.data.title}" is created`);
-        window.location.reload();
+        // window.location.reload();
+        history.push('/admin/products')
       })
       .catch((err) => {
         console.log(err);
@@ -88,7 +92,7 @@ const ProductCreate = () => {
   };
 
   return (
-    <div className="">
+    <div className="" style={{marginTop:'78px'}}>
       <div className="row">
         <div className="col-md-2">
           <AdminNav />
@@ -98,7 +102,7 @@ const ProductCreate = () => {
           {loading ? (
             <LoadingOutlined className="text-danger h1" />
           ) : (
-            <h4>Product create</h4>
+            <h4>Add Product</h4>
           )}
           <hr />
 

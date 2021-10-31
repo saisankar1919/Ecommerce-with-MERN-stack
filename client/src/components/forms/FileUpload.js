@@ -103,9 +103,10 @@ const FileUpload = ({ values, setValues, setLoading }) => {
           ))}
       </div>
       <div className="row">
-        <label className="btn btn-primary btn-raised mt-3">
+        <label className="btn btn-primary btn-raised mt-3" style={{backgroundColor:'rgb(87, 67, 67)'}}>
           Choose File
           <input
+           
             type="file"
             multiple
             hidden

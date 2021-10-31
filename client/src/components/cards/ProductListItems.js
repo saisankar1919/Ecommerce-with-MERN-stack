@@ -49,26 +49,26 @@ const ProductListItems = ({ product }) => {
         </li>
       )}
 
-      <li className="list-group-item">
+      {/* <li className="list-group-item">
         Shipping{" "}
         <span className="label label-default label-pill pull-xs-right">
           {shipping}
         </span>
-      </li>
+      </li> */}
 
-      <li className="list-group-item">
+      {/* <li className="list-group-item">
         Color{" "}
         <span className="label label-default label-pill pull-xs-right">
           {color}
         </span>
-      </li>
+      </li> */}
 
-      <li className="list-group-item">
+      {/* <li className="list-group-item">
         Brand{" "}
         <span className="label label-default label-pill pull-xs-right">
           {brand}
         </span>
-      </li>
+      </li> */}
 
       <li className="list-group-item">
         Available{" "}

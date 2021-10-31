@@ -38,7 +38,7 @@ const CategoryUpdate = ({ history, match }) => {
   };
 
   return (
-    <div className="">
+    <div className="" style={{marginTop:'78px'}}>
       <div className="row">
         <div className="col-md-2">
           <AdminNav />

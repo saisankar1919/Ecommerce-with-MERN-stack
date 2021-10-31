@@ -24,7 +24,7 @@ import { FiHeart } from "react-icons/fi";
 
 const { SubMenu, Item } = Menu;
 
-const Header = () => {
+const AdminHeader = () => {
   const [current, setCurrent] = useState("home");
 
   let dispatch = useDispatch();
@@ -61,19 +61,16 @@ const Header = () => {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav style={{ width: "100%" }} onClick={handleClick}>
                 <Nav.Link>
-                  <Link to="/">
-                    <h4>Brand 24</h4>
-
-                  </Link>
+                  <h4>Brand 24</h4>
                 </Nav.Link>
 
                 <Nav></Nav>
 
-                <Nav.Link key="shop">
+                {/* <Nav.Link key="shop">
                   <Link to="/shop">
                     <BsShopWindow style={{ fontSize: "25px",marginLeft:'20px',color:'rgb(87, 67, 67)' }} />
                   </Link>
-                </Nav.Link>
+                </Nav.Link> */}
               </Nav>
               <Nav className="justify-content-end">
                 {user && user.role === "subscriber" && (
@@ -112,10 +109,10 @@ const Header = () => {
 
                 {user && user.role === "subscriber" && (
                   <Nav.Link>
-                    <Link to="/user/wishlist">
-                      {/* <Badge count={cart.length} offset={[9, 0]}> */}
+                    <Link to="/cart">
+                      <Badge count={cart.length} offset={[9, 0]}>
                         <FiHeart style={{ fontSize: "25px",color:'rgb(87, 67, 67)' }} />
-                      {/* </Badge> */}
+                      </Badge>
                     </Link>
                   </Nav.Link>
                 )}
@@ -246,4 +243,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default AdminHeader;

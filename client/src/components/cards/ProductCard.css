@@ -1,0 +1,16 @@
+.cardHover:hover{
+    transition: transform .4s;
+    transform: scale(1.05);
+}
+.cardHover{
+    transition: transform .4s;
+    transform: scale(1);
+}
+.cardImgHover{
+    transition: transform .4s;
+    transform: scale(1);
+}
+.cardImgHover:hover{
+    transition: transform .4s;
+    transform: scale(1.025);
+}

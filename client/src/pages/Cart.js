@@ -57,10 +57,12 @@ const Cart = ({ history }) => {
         <ProductCardInCheckout key={p._id} p={p} />
       ))}
     </table>
+
+    
   );
 
   return (
-    <div className="container-fluid pt-2">
+    <div className="container-fluid pt-2" style={{marginTop:'78px'}}>
       <div className="row">
         <div className="col-md-8">
           <h4>Cart / {cart.length} Product</h4>

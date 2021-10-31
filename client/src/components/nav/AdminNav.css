@@ -1,6 +1,11 @@
 .nav-item:hover{
-    background-color: white;
+    background-color: rgb(134, 118, 118);
+    transition: transform .4s;
+    transform: scale(1.06);
+
 }
-.nav-item:active{
-    background-color:white;
+.nav-item{
+    transition: transform .4s;  
+    transform: scale(1);
+
 }

@@ -3,6 +3,7 @@ import { getProducts, getProductsCount } from "../../functions/product";
 import ProductCard from "../cards/ProductCard";
 import LoadingCard from "../cards/LoadingCard";
 import { Pagination } from "antd";
+// import './NewArrivals.css';
 
 const NewArrivals = () => {
   const [products, setProducts] = useState([]);
@@ -52,7 +53,10 @@ const NewArrivals = () => {
           />
         </nav>
       </div>
-    </>
+      
+      
+      {/* //........................................................... */}
+          </>
   );
 };
 

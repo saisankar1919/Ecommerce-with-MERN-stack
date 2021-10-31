@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -36,9 +36,12 @@ import Payment from "./pages/Payment";
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
+import AdminHeader from "./components/nav/AdminHeader";
 
 const App = () => {
   const dispatch = useDispatch();
+
+  const [userRole,setUserRole] = useState()
 
   // to check firebase auth state
   useEffect(() => {
@@ -46,9 +49,11 @@ const App = () => {
       if (user) {
         const idTokenResult = await user.getIdTokenResult();
         console.log("user", user);
+        // setUser(user);
 
         currentUser(idTokenResult.token)
           .then((res) => {
+            setUserRole(res.data.role)
             dispatch({
               type: "LOGGED_IN_USER",
               payload: {
@@ -69,9 +74,12 @@ const App = () => {
 
   return (
     <>
-      <Header />
+      {userRole==="subscriber"?
+      (<Header/>):(<AdminHeader/>)
+      }
       <SideDrawer />
-      <ToastContainer />
+      <div style={{marginTop:'55px'}}>
+        <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
@@ -106,6 +114,8 @@ const App = () => {
         <AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
         <UserRoute exact path="/payment" component={Payment} />
       </Switch>
+      </div>
+      
     </>
   );
 };

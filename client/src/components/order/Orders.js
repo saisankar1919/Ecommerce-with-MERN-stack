@@ -42,8 +42,8 @@ const Orders = ({ orders, handleStatusChange }) => {
   return (
     <>
       {orders.map((order) => (
-        <div key={order._id} className="row pb-5">
-          <div className="btn btn-block bg-light">
+        <div key={order._id} className="row pb-5" style={{backgroundColor:'#d9cccc',color:'black',marginRight:'20px'}}>
+          <div className="btn btn-block">
             <ShowPaymentInfo order={order} showStatus={false} />
 
             <div className="row">
