@@ -54,7 +54,7 @@ const ProductCard = ({ product }) => {
   };
 
   // destructure
-  const { images, title, description, slug, price } = product;
+  const { images, title, description, slug, price, offerPrice } = product;
   return (
     <div>
       <Card className="cardHover" style={{ boxShadow: "5px 5px 8px 5px #555" }}
@@ -76,7 +76,7 @@ const ProductCard = ({ product }) => {
               disabled={product.quantity < 1}
             >
               {product.quantity < 1 ? (
-                "Out of stock"
+               <p style={{color:'red'}}>"Out of stock"</p> 
               ) : (
                 <MdShoppingCart style={{ color: "rgb(87, 67, 67)" }} />
               )}
@@ -88,11 +88,28 @@ const ProductCard = ({ product }) => {
         ) : (
           <div className="pt-1 pb-3">No rating yet</div>
         )}
-        <Meta
-          title={`${title} - $${price}`}
+        {!product.offerPrice ? (
+        <div>
+          <Meta
+          title={`${title}`}
+          
           // description={`${description && description.substring(0, 30)}...`}
            
-        />
+        /> 
+        <h6>${price}</h6>
+        </div>
+        
+        ):(
+        <div>
+        <Meta
+                  title={`${title}`}
+                  // description={`${description && description.substring(0, 30)}...`}
+                  />
+                  {/* <h7>offer applied</h7> */}
+                  <h6><span style={{color:'gray',textDecoration: 'line-through'}}>${offerPrice}</span>  ${price}</h6>
+        </div>
+        
+        )}
         
       </Card>
     </div>

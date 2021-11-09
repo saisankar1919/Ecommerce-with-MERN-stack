@@ -4,6 +4,9 @@ import { getOrders, changeStatus } from "../../functions/admin";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import Orders from "../../components/order/Orders";
+// import { PDFDownloadLink } from "@react-pdf/renderer";
+// import Report from "../../components/order/Report";
+
 
 const AdminDashboard = () => {
   const [orders, setOrders] = useState([]);
@@ -27,16 +30,22 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="" style={{color:'white',marginTop:'78px'}}>
-      
+    <div className="" style={{ color: "white", marginTop: "78px" }}>
       <div className="row">
         <div className="col-md-2" style={{}}>
           <AdminNav />
         </div>
 
         <div className="col-md-10">
-          <h4 style={{color:'white'}}>Admin Dashboard</h4>
+          <h4 style={{ color: "black" }}></h4>
           {/* {JSON.stringify(orders)} */}
+          {/* <PDFDownloadLink
+            document={<Report order={orders} />}
+            fileName="invoice_Brand24.pdf"
+            className="btn btn-sm btn-block btn-outline-primary"
+          >
+            Download PDF
+          </PDFDownloadLink> */}
           <Orders orders={orders} handleStatusChange={handleStatusChange} />
         </div>
       </div>

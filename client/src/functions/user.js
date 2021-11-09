@@ -25,7 +25,8 @@ export const emptyUserCart = async (authtoken) =>
     },
   });
 
-export const saveUserAddress = async (authtoken, address) =>
+export const saveUserAddress = async (authtoken, address) =>{
+console.log(address)
   await axios.post(
     `${process.env.REACT_APP_API}/user/address`,
     { address },
@@ -34,7 +35,7 @@ export const saveUserAddress = async (authtoken, address) =>
         authtoken,
       },
     }
-  );
+  );}
 
 export const applyCoupon = async (authtoken, coupon) =>
   await axios.post(
@@ -57,6 +58,32 @@ export const createOrder = async (stripeResponse, authtoken) =>
       },
     }
   );
+  export const getAddress = async (authtoken) =>{
+    console.log(authtoken)
+  await axios.get(`${process.env.REACT_APP_API}/user/getaddress`, {
+    headers: {
+      authtoken,
+    },
+  });}
+
+  // export const getAddress = async(authtoken) =>{
+   
+  //   await axios.get(`${process.env.REACT_APP_API}/user/getaddress`,{
+  //     header:{
+  //       authtoken
+  //     },
+  //   })
+  // }
+
+  export const createAddress = async(address, authtoken) =>{
+    await axios.post(`${process.env.REACT_APP_API}/user/address`,
+    { address },
+    {
+      headers: {
+        authtoken,
+      },
+    })
+  }
 
 export const getUserOrders = async (authtoken) =>
   await axios.get(`${process.env.REACT_APP_API}/user/orders`, {

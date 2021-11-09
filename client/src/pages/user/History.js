@@ -36,7 +36,7 @@ const History = () => {
       </thead>
 
       <tbody>
-        {order.products.map((p, i) => (
+        {(order.products.map((p, i) => (
           <tr key={i}>
             <td>
               <b>{p.product.title}</b>
@@ -53,7 +53,7 @@ const History = () => {
               )}
             </td> */}
           </tr>
-        ))}
+        )))}
       </tbody>
     </table>
   );

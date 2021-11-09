@@ -93,7 +93,7 @@ const ProductCardInCheckout = ({ p }) => {
   return (
     <tbody>
       
-      <tr>
+      <tr style={{backgroundColor:'#d9cccc'}}>
         <td style={{maxWidth:'20px'}}>
           <div style={{ width: "100px", height: "auto" }}>
             {p.images.length ? (
@@ -104,7 +104,8 @@ const ProductCardInCheckout = ({ p }) => {
           </div>
         </td>
         <td>{p.title}</td>
-        <td>${p.price}</td>
+
+        {!p.offerPrice ? (<td>${p.price}</td>):(<td>${p.offerPrice}</td>)}
         {/* <td>{p.brand}</td> */}
         {/* <td>
           <select

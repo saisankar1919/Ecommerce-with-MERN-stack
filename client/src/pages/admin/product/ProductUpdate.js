@@ -130,7 +130,7 @@ const ProductUpdate = ({ match, history }) => {
 
           {/* {JSON.stringify(values)} */}
 
-          <div className="p-3">
+          <div className="p-3" style={{marginLeft:'320px'}}>
             <FileUpload
               values={values}
               setValues={setValues}

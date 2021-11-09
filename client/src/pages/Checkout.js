@@ -1,21 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import axios from "axios";
 import {
   getUserCart,
   emptyUserCart,
   saveUserAddress,
   applyCoupon,
+  getAddress,
   createCashOrderForUser,
 } from "../functions/user";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import "./Checkout.css";
+import { createAddress } from "../functions/user";
 
 const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
-  const [address, setAddress] = useState("");
+  // const [gettedAddress, setGettedAddress] = useState()
+  // const [address, setAddress] = useState({houseName:"",street:'',city:'',district:'',state:''});
+  const [address, setAddress] = useState({
+    housename: "",
+    street: "",
+    city: "",
+    zip: "",
+    district: "",
+    state: "",
+    country: "",
+  });
+  console.log(address);
+
+  const [gettedAddress, setGettedAddress] = useState();
+
   const [addressSaved, setAddressSaved] = useState(false);
+  console.log(addressSaved);
   const [coupon, setCoupon] = useState("");
   // discount price
   const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
@@ -28,9 +47,16 @@ const Checkout = ({ history }) => {
   useEffect(() => {
     getUserCart(user.token).then((res) => {
       console.log("user cart res", JSON.stringify(res.data, null, 4));
+      // getAddress(user.token).then((res)=>{console.log(res)})
       setProducts(res.data.products);
       setTotal(res.data.cartTotal);
     });
+
+    //  getUserAddress()
+    // getAddress(user.token).then((res)=>{
+    //   console.log(res)
+    //   setGettedAddress(res);
+    // })
   }, []);
 
   const emptyCart = () => {
@@ -53,14 +79,45 @@ const Checkout = ({ history }) => {
     });
   };
 
-  const saveAddressToDb = () => {
-    // console.log(address);
-    saveUserAddress(user.token, address).then((res) => {
-      if (res.data.ok) {
-        setAddressSaved(true);
-        toast.success("Address saved");
-      }
-    });
+  // const saveAddressToDb = () => {
+  //   // console.log(address);
+  //   saveUserAddress(user.token, address).then((res) => {
+  //     if (res.data.ok) {
+  //       setAddressSaved(true);
+  //       toast.success("Address saved");
+  //     }
+  //   });
+  // };
+
+  // const getUserAddress = ()=>{
+  //   // e.preventDefault();
+  //    getAddress(user.token).then((data)=>{
+  //     //console.log(data)
+  //     setAddressSaved(data);
+  //   })
+  // }
+
+  const saveAddressToDb = (e) => {
+    e.preventDefault();
+    if (address.housename==''||address.city==''||address.zip==''||address.district==''||address.state==''||
+    address.country=='') {
+      toast.error("Provide the required fields");
+    } else {
+      
+      createAddress(address, user.token)
+        .then((res) => {
+          console.log(res);
+          setAddressSaved(true);
+          toast.success("Address saved");
+          // window.location.reload();
+          history.push("/checkout");
+        })
+        .catch((err) => {
+          console.log(err);
+          // if (err.response.status === 400) toast.error(err.response.data);
+          toast.error(err.response.data.err);
+        });
+    }
   };
 
   const applyDiscountCoupon = () => {
@@ -87,12 +144,104 @@ const Checkout = ({ history }) => {
     });
   };
 
+  const handleChange = (evt) => {
+    const value = evt.target.value;
+    setAddress({
+      ...address,
+      [evt.target.name]: value,
+    });
+  };
+
   const showAddress = () => (
     <>
-      <ReactQuill theme="snow" value={address} onChange={setAddress} />
-      <button className="btn btn-primary mt-2 float-right" onClick={saveAddressToDb}>
+      {/* <ReactQuill theme="snow" value={address} onChange={setAddress} />
+      {/* <ReactQuill theme="snow" value={address.street} onChange={setAddress} />
+      <ReactQuill theme="snow" value={address.city} onChange={setAddress} />
+      <ReactQuill theme="snow" value={address.district} onChange={setAddress} />
+      <ReactQuill theme="snow" value={address.state} onChange={setAddress} /> */}
+      {/* <button
+        className="btn btn-primary mt-2 float-right"
+        onClick={saveAddressToDb}
+      >
         Save
-      </button>
+      </button> */}
+
+      <form action="" onSubmit={saveAddressToDb}>
+        <div class="form-group">
+          <input
+            value={address.housename}
+            name="housename"
+            onChange={handleChange}
+            type="houseName"
+            class="form-control"
+            id="autocomplete"
+            placeholder="House Name"
+            width="50px"
+          />
+
+          <input
+            value={address.city}
+            name="city"
+            onChange={handleChange}
+            type="city"
+            class="form-control"
+            id="inputCity"
+            placeholder="City"
+          />
+
+          <input
+            value={address.zip}
+            pattern="[0-9]*"
+            maxLength="6"
+            name="zip"
+            type="zip"
+            class="form-control"
+            onChange={handleChange}
+            id="inputZip"
+            placeholder="Zip"
+            style={{ marginLeft: "10px" }}
+          />
+          <input
+            value={address.state}
+            name="state"
+            type="state"
+            class="form-control"
+            onChange={handleChange}
+            id="inputState"
+            placeholder="State"
+            style={{ marginLeft: "10px" }}
+          />
+
+          <input
+            value={address.district}
+            name="district"
+            type="district"
+            class="form-control"
+            onChange={handleChange}
+            id="inputCounty"
+            placeholder="District"
+          />
+
+          <input
+            value={address.country}
+            name="country"
+            type="country"
+            class="form-control"
+            onChange={handleChange}
+            id="inputCountry"
+            placeholder="Country"
+            style={{ marginLeft: "10px" }}
+          />
+        </div>
+        <div style={{float:'right'}}>
+          <br />
+          <br />
+         <button className="btn btn-primary mt-2 float-right"style={{color:'rgb(87 67 67)'}} type="submit">
+          Save
+        </button> 
+        </div>
+        
+      </form>
     </>
   );
 
@@ -117,9 +266,16 @@ const Checkout = ({ history }) => {
         type="text"
         className="form-control"
       />
-      <button onClick={applyDiscountCoupon} className="btn btn-primary mt-2 float-right">
+      <div style={{float:'right'}}>
+        <button
+        onClick={applyDiscountCoupon}
+        className="btn btn-primary mt-2 float-right"
+        style={{color:'rgb(87 67 67)'}}
+      >
         Apply
-      </button>
+      </button> 
+      </div>
+     
     </>
   );
 
@@ -156,23 +312,36 @@ const Checkout = ({ history }) => {
   };
 
   return (
-    <div className="row" style={{margin:'20px'}} style={{marginTop:'78px'}}>
-      <div className="col-md-6">
-        <h4>Delivery Address</h4>
-        <br />
-        <br />
+    <div
+      className="row"
+      // style={{ margin: "20px" }}
+      
+      style={{ marginTop: "78px", marginLeft: "40px", marginRight: "40px" }}
+    >
+      <div className="col-md-6" >
+        <div className='card' style={{marginTop:'20px',padding:'20px',backgroundColor:'#d9cccc'}}>
+          <h4>Delivery Address</h4>
+        {/* <br />
+        <br /> */}
         {showAddress()}
         <br />
         <br />
-        <h4>ApplyCoupon</h4>
+        <br />
+        <br />
+        <div style={{ marginTop: "50px" }}>
+          <h4>ApplyCoupon</h4>
+        </div>
         <br />
         {showApplyCoupon()}
         <br />
         {discountError && <p className="bg-danger p-2">{discountError}</p>}
+        </div>
+        
       </div>
 
       <div className="col-md-6">
-        <h4>Order Summary</h4>
+        <div className='card' style={{marginTop:'20px',padding:'20px', backgroundColor:'#dfdbdb'}}>
+          <h4>Order Summary</h4>
         <hr />
         <p>Products {products.length}</p>
         <hr />
@@ -193,14 +362,21 @@ const Checkout = ({ history }) => {
                 className="btn btn-primary"
                 hidden={!addressSaved || !products.length}
                 onClick={createCashOrder}
+                style={{color:'rgb(87 67 67)'}}
               >
                 Place Order
               </button>
             ) : (
               <button
                 className="btn btn-primary"
+                style={{color:'rgb(87 67 67)'}}
                 disabled={!addressSaved || !products.length}
-                onClick={() => history.push("/payment")}
+                onClick={() => history.push({
+                  pathname: '/payment',
+                  // search: '?query=abc',
+                  state: { total: total }
+                  
+              })}
               >
                 Place Order
               </button>
@@ -218,6 +394,8 @@ const Checkout = ({ history }) => {
           </div> */}
         </div>
       </div>
+        </div>
+        
     </div>
   );
 };

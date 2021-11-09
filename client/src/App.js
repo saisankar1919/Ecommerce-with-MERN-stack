@@ -31,12 +31,15 @@ import Shop from "./pages/Shop";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import CreateCouponPage from "./pages/admin/coupon/CreateCouponPage";
+import CreateOfferPage from "./pages/admin/offer/CreateOfferPage";
 import Payment from "./pages/Payment";
 
 import { auth } from "./firebase";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./functions/auth";
 import AdminHeader from "./components/nav/AdminHeader";
+import SalesReport from './pages/admin/SalesReport'
+import AdminChartPage from "./pages/admin/AdminChartPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -90,6 +93,8 @@ const App = () => {
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
+        <AdminRoute exact path="/admin/chart" component={AdminChartPage} />
+        <AdminRoute exact path="/admin/report" component={SalesReport} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
         <AdminRoute
           exact
@@ -112,6 +117,7 @@ const App = () => {
         <Route exact path="/cart" component={Cart} />
         <UserRoute exact path="/checkout" component={Checkout} />
         <AdminRoute exact path="/admin/coupon" component={CreateCouponPage} />
+        <AdminRoute exact path="/admin/offer" component={CreateOfferPage} />
         <UserRoute exact path="/payment" component={Payment} />
       </Switch>
       </div>

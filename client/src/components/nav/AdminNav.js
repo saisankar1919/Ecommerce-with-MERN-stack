@@ -25,40 +25,46 @@ const AdminNav = () =>{
     <ul className="nav flex-column">
 
       <li className="nav-item" style={{padding:'5px'}}>
-        <Link style={{color:'white'}} to="/admin/dashboard" className="nav-link">
+        <Link style={{color:'white'}} to="/admin/chart" className="nav-link">
           Dashboard
         </Link>
       </li>
 
       <li className="nav-item" style={{padding:'5px'}}>
         <Link style={{color:'white'}} to="/admin/dashboard" className="nav-link">
-          Orders
+          Order Management
         </Link>
       </li>
 
       <li className="nav-item" style={{padding:'5px'}}>
+        <Link style={{color:'white'}} to="/admin/report" className="nav-link">
+          Sales Report
+        </Link>
+      </li>
+
+      {/* <li className="nav-item" style={{padding:'5px'}}>
         <Link style={{color:'white'}} to="/admin/product" className="nav-link">
           Add Product
         </Link>
-      </li>
+      </li> */}
 
       <li className="nav-item" style={{padding:'5px'}}>
         <Link style={{color:'white'}} to="/admin/products" className="nav-link">
-          Products
+          Product Management
         </Link>
       </li>
 
       <li className="nav-item" style={{padding:'5px'}}>
         <Link style={{color:'white'}} to="/admin/category" className="nav-link">
-          Category
+          Category Management
         </Link>
       </li>
 
-      <li className="nav-item" style={{padding:'5px'}}>
+      {/* <li className="nav-item" style={{padding:'5px'}}>
         <Link style={{color:'white'}} to="/admin/sub" className="nav-link">
           Sub Category
         </Link>
-      </li>
+      </li> */}
 
       <li className="nav-item" style={{padding:'5px'}}>
         <Link style={{color:'white'}} to="/admin/coupon" className="nav-link">
@@ -67,7 +73,7 @@ const AdminNav = () =>{
       </li>
 
       <li className="nav-item" style={{padding:'5px'}}>
-        <Link style={{color:'white'}} to="/admin/coupon" className="nav-link">
+        <Link style={{color:'white'}} to="/admin/offer" className="nav-link">
           Offer
         </Link>
       </li>

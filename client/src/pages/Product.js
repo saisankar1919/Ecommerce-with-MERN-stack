@@ -62,7 +62,7 @@ const Product = ({ match }) => {
         </div>
       </div> */}
 
-      <div className="row pb-5">
+      {/* <div className="row pb-5">
         {related.length ? (
           related.map((r) => (
             <div key={r._id} className="col-md-4">
@@ -72,7 +72,7 @@ const Product = ({ match }) => {
         ) : (
           <div className="text-center col">No Products Found</div>
         )}
-      </div>
+      </div> */}
     </div>
   );
 };

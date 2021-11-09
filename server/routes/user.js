@@ -10,6 +10,8 @@ const {
   getUserCart,
   emptyCart,
   saveAddress,
+  createAddress,
+  getAddress,
   applyCouponToUserCart,
   createOrder,
   orders,
@@ -22,7 +24,8 @@ const {
 router.post("/user/cart", authCheck, userCart); // save cart
 router.get("/user/cart", authCheck, getUserCart); // get cart
 router.delete("/user/cart", authCheck, emptyCart); // empty cart
-router.post("/user/address", authCheck, saveAddress);
+router.post("/user/address", authCheck, createAddress);
+router.get("/user/getaddress", authCheck, getAddress);
 
 router.post("/user/order", authCheck, createOrder); // stripe
 router.post("/user/cash-order", authCheck, createCashOrder); // cod

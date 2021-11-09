@@ -74,9 +74,9 @@ const SingleProduct = ({ product, onStarClick, star }) => {
 
   return (
     <>
-      <div className="col-md-7">
+      <div className="col-md-6">
         {images && images.length ? (
-          <Carousel showArrows={true} autoPlay infiniteLoop>
+          <Carousel showArrows={true} height='500px' autoPlay infiniteLoop>
             {images && images.map((i) => <img src={i.url} key={i.public_id} />)}
           </Carousel>
         ) 
@@ -94,7 +94,7 @@ const SingleProduct = ({ product, onStarClick, star }) => {
         
       </div>
 
-      <div className="col-md-5">
+      <div className="col-md-6">
         <h1 >{title}</h1>
 
         {product && product.ratings && product.ratings.length > 0 ? (

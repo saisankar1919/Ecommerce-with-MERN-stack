@@ -34,9 +34,9 @@ const Login = ({ history }) => {
       history.push(intended.from);
     } else {
       if (res.data.role === "admin") {
-        history.push("/admin/dashboard");
+        history.push("/admin/chart");
       } else {
-        history.push("/user/history");
+        history.push("/");
       }
     }
   };

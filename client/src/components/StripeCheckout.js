@@ -7,6 +7,9 @@ import { Card } from "antd";
 import { DollarOutlined, CheckOutlined, SwapOutlined } from "@ant-design/icons";
 import Laptop from "../images/laptop.png";
 import { createOrder, emptyUserCart } from "../functions/user";
+import Axios from "axios";
+import { PayPalButton } from "react-paypal-button-v2";
+import { toast } from "react-toastify";
 
 const StripeCheckout = ({ history }) => {
   const dispatch = useDispatch();
@@ -24,17 +27,45 @@ const StripeCheckout = ({ history }) => {
 
   const stripe = useStripe();
   const elements = useElements();
+  const [sdkReady, setSdkReady] = useState(false);
+
+  // const successPaymentHandler = (paymentResult) => {
+  //   // dispatch(payOrder(order, paymentResult));
+  // };
 
   useEffect(() => {
     createPaymentIntent(user.token, coupon).then((res) => {
       console.log("create payment intent", res.data);
-      setClientSecret(res.data.clientSecret);
+      // setClientSecret(res.data.clientSecret);
       // additional response received on successful payment
       setCartTotal(res.data.cartTotal);
       setTotalAfterDiscount(res.data.totalAfterDiscount);
       setPayable(res.data.payable);
+
+      const { data } = Axios.get("/api/config/paypal");
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+      script.async = true;
+      script.onload = () => {
+        setSdkReady(true);
+      };
+      document.body.appendChild(script);
     });
+
+    // addPayPalScript();
   }, []);
+
+  // const addPayPalScript = async () => {
+  //   const { data } = await Axios.get("/api/config/paypal");
+  //   const script = document.createElement("script");
+  //   script.type = "text/javascript";
+  //   script.src = `https://www.paypal.com/sdk/js?client-id=${data}`;
+  //   script.async = true;
+  //   script.onload = () => {
+  //     setSdkReady(true);
+  //   };
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,6 +109,7 @@ const StripeCheckout = ({ history }) => {
       setError(null);
       setProcessing(false);
       setSucceeded(true);
+      // history.push('/')
     }
   };
 
@@ -106,16 +138,68 @@ const StripeCheckout = ({ history }) => {
     },
   };
 
+  const successPaymentHandler = (paymentResult) => {
+    console.log(paymentResult);
+    const payload = paymentResult;
+    console.log(payload);
+    createOrder(payload, user.token).then((res) => {
+      if (res.data.ok) {
+        // empty cart from local storage
+        if (typeof window !== "undefined") localStorage.removeItem("cart");
+        // empty cart from redux
+        dispatch({
+          type: "ADD_TO_CART",
+          payload: [],
+        });
+        // reset coupon to false
+        dispatch({
+          type: "COUPON_APPLIED",
+          payload: false,
+        });
+        // empty cart from database
+        emptyUserCart(user.token);
+      }
+    });
+    // empty user cart from redux store and local storage
+    console.log(JSON.stringify(payload, null, 4));
+    setError(null);
+    setProcessing(false);
+    setSucceeded(true);
+    toast.success('Order placed successfuly')
+  };
+
+  const redirect = ()=>{
+    history.push('/')
+  }
+
   return (
     <>
-      {!succeeded && (
+      {!succeeded ? (
         <div>
           {coupon && totalAfterDiscount !== undefined ? (
             <p className="alert alert-success">{`Total after discount: $${totalAfterDiscount}`}</p>
           ) : (
             <p className="alert alert-danger">No coupon applied</p>
           )}
+          <div>
+             {coupon && totalAfterDiscount !== undefined ? (
+        <div id="payment-form" className="stripe-form">
+          <PayPalButton
+            amount={totalAfterDiscount}
+            onSuccess={successPaymentHandler}
+          ></PayPalButton>
         </div>
+      ) : (
+        <PayPalButton
+          amount={cartTotal}
+          onSuccess={successPaymentHandler}
+        ></PayPalButton>
+      )}
+          </div>
+        </div>
+      ):(
+        // redirect()
+      <div><h1> <span style={{color:'green',fontSize:'50px'}}>Congrations...!</span> <br /> Your Order placed successfuly</h1></div>
       )}
       {/* <div className="text-center pb-5">
         <Card
@@ -141,33 +225,8 @@ const StripeCheckout = ({ history }) => {
           ]}
         />
       </div> */}
-
-      <form id="payment-form" className="stripe-form" onSubmit={handleSubmit}>
-        <CardElement
-          id="card-element"
-          options={cartStyle}
-          onChange={handleChange}
-        />
-        <button
-          className="stripe-button"
-          disabled={processing || disabled || succeeded}
-        >
-          <span id="button-text">
-            {processing ? <div className="spinner" id="spinner"></div> : "Pay"}
-          </span>
-        </button>
-        <br />
-        {error && (
-          <div className="card-error" role="alert">
-            {error}
-          </div>
-        )}
-        <br />
-        <p className={succeeded ? "result-message" : "result-message hidden"}>
-          Payment Successful.{" "}
-          <Link to="/user/history">See it in your purchase history.</Link>
-        </p>
-      </form>
+      
+     
     </>
   );
 };

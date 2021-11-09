@@ -3,9 +3,12 @@ const Cart = require("../models/cart");
 const Product = require("../models/product");
 const Coupon = require("../models/coupon");
 const coupon = require("../models/coupon");
+const Order = require("../models/order")
 const stripe = require("stripe")(process.env.STRIPE_SECRET);
 
 exports.createPaymentIntent = async (req, res) => {
+  console.log('here')
+
   // console.log(req.body);
   const { couponApplied } = req.body;
 
@@ -19,7 +22,9 @@ exports.createPaymentIntent = async (req, res) => {
     orderdBy: user._id,
   }).exec();
   // console.log("CART TOTAL", cartTotal, "AFTER DIS%", totalAfterDiscount);
-
+console.log('here')
+console.log(user)
+console.log(cartTotal)
   let finalAmount = 0;
 
   if (couponApplied && totalAfterDiscount) {
@@ -28,14 +33,14 @@ exports.createPaymentIntent = async (req, res) => {
     finalAmount = cartTotal * 100;
   }
 
-  // create payment intent with order amount and currency
-  const paymentIntent = await stripe.paymentIntents.create({
-    amount: finalAmount,
-    currency: "usd",
-  });
+  //create payment intent with order amount and currency
+  // const paymentIntent = await Order.paymentIntents.update({
+  //   amount: finalAmount,
+  //   currency: "usd",
+  // });
 
   res.send({
-    clientSecret: paymentIntent.client_secret,
+    // clientSecret: paymentIntent.client_secret,
     cartTotal,
     totalAfterDiscount,
     payable: finalAmount,

@@ -46,6 +46,7 @@ const ProductCreate = () => {
   const [subOptions, setSubOptions] = useState([]);
   const [showSub, setShowSub] = useState(false);
   const [loading, setLoading] = useState(false);
+  console.log(values)
 
   const history = useHistory();
 
@@ -107,14 +108,17 @@ const ProductCreate = () => {
           <hr />
 
           {/* {JSON.stringify(values.images)} */}
-
-          <div className="p-3">
+         
+            <div className="p-3" style={{marginLeft:'320px'}}>
             <FileUpload
               values={values}
               setValues={setValues}
               setLoading={setLoading}
             />
           </div>
+       
+
+          
 
           <ProductCreateForm
             handleSubmit={handleSubmit}

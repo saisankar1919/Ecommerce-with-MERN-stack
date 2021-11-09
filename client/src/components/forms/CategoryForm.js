@@ -13,7 +13,7 @@ const CategoryForm = ({ handleSubmit, name, setName }) => (
         required
       />
       <br />
-      <button className="btn btn-outline-primary" style={{color:'rgb(87, 67, 67)'}}>Save</button>
+      <button className="btn btn-outline-primary" style={{color:'rgb(87, 67, 67)',borderColor:'rgb(87 67 67)'}}>Save</button>
     </div>
   </form>
 );

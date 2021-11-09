@@ -119,7 +119,7 @@ const ProductCreateForm = ({
           className="form-control"
           onChange={handleCatagoryChange}
         >
-          <option>Please select</option>
+          <option style={{color:'gray'}}>------Please select-------</option>
           {categories.length > 0 &&
             categories.map((c) => (
               <option key={c._id} value={c._id}>
@@ -129,7 +129,7 @@ const ProductCreateForm = ({
         </select>
       </div>
 
-      {showSub && (
+      {/* {showSub && (
         <div>
           <label>Sub Categories</label>
           <Select
@@ -147,10 +147,12 @@ const ProductCreateForm = ({
               ))}
           </Select>
         </div>
-      )}
+      )} */}
 
       <br />
-      <button className="btn btn-outline-info">Save</button>
+      <div style={{textAlign:'center'}}>
+      <button className="btn btn-outline-info" style={{borderColor:'rgb(87, 67, 67)',color:'rgb(87, 67, 67)'}}>Save</button>
+      </div>
     </form>
   );
 };

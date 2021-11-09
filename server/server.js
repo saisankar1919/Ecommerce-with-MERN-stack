@@ -22,6 +22,9 @@ app.use(bodyParser.json({ limit: "2mb" }));
 app.use(cors());
 
 // routes middleware
+app.get('/api/config/paypal', (req, res) => {
+  res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+});
 readdirSync("./routes").map((r) => app.use("/api", require("./routes/" + r)));
 
 // port

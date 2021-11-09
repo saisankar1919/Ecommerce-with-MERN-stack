@@ -57,12 +57,10 @@ const Cart = ({ history }) => {
         <ProductCardInCheckout key={p._id} p={p} />
       ))}
     </table>
-
-    
   );
 
   return (
-    <div className="container-fluid pt-2" style={{marginTop:'78px'}}>
+    <div className="container-fluid pt-2" style={{marginTop:'70px', backgroundColor:'#f1f1f1'}}>
       <div className="row">
         <div className="col-md-8">
           <h4>Cart / {cart.length} Product</h4>
@@ -75,8 +73,9 @@ const Cart = ({ history }) => {
             showCartItems()
           )}
         </div>
-        <div className="col-md-4">
-          <h4>Order Summary</h4>
+        <div className="col-md-4 ">
+          <div className='card' style={{padding:'20px', backgroundColor:'#dfdbdb',marginTop:'40px'}}>
+             <h4>Order Summary</h4>
           <hr />
           <p>Products</p>
           {cart.map((c, i) => (
@@ -95,14 +94,16 @@ const Cart = ({ history }) => {
                 onClick={saveOrderToDb}
                 className="btn btn-sm btn-primary mt-2"
                 disabled={!cart.length}
+                style={{backgroundColor: "rgb(87, 67, 67)",color:'white'}}
               >
                 Proceed to Checkout
               </button>
-              <br />
+              {/* <br /> */}
               <button
                 onClick={saveCashOrderToDb}
-                className="btn btn-sm btn-warning mt-2"
+                className="btn btn-sm btn-primary mt-2"
                 disabled={!cart.length}
+                style={{backgroundColor:"rgb(87, 67, 67)",color:'white'}}
               >
                 Pay Cash on Delivery
               </button>
@@ -119,6 +120,8 @@ const Cart = ({ history }) => {
               </Link>
             </button>
           )}
+          </div>
+         
         </div>
       </div>
     </div>

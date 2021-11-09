@@ -28,6 +28,14 @@ const productSchema = new mongoose.Schema(
       trim: true,
       maxlength: 32,
     },
+    offerPrice: {
+      // default:false,
+      // default:0,
+      type: Number,
+     
+      trim: true,
+      maxlength: 32,
+    },
     category: {
       type: ObjectId,
       ref: "Category",

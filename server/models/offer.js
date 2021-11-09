@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
-const couponSchema = new mongoose.Schema(
+const offerSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -12,7 +12,10 @@ const couponSchema = new mongoose.Schema(
       minlength: [6, "Too short"],
       maxlength: [12, "Too long"],
     },
-    
+    category: {
+        type: ObjectId,
+        ref: "Category",
+      },
     expiry: {
       type: Date,
       required: true,
@@ -25,4 +28,4 @@ const couponSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Coupon", couponSchema);
+module.exports = mongoose.model("Offer", offerSchema);

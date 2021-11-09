@@ -3,58 +3,82 @@ import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import DatePicker from "react-datepicker";
 import {
-  getCoupons,
-  removeCoupon,
-  createCoupon,
-} from "../../../functions/coupon";
+  getOffers,
+  removeOffer,
+  createOffer,
+} from "../../../functions/offer";
 import "react-datepicker/dist/react-datepicker.css";
 import { DeleteOutlined } from "@ant-design/icons";
 import AdminNav from "../../../components/nav/AdminNav";
+import { getCategories } from "../../../functions/category";
+import { useHistory } from "react-router";
 
-const CreateCouponPage = () => {
+
+const CreateOfferPage = () => {
+  
   const [name, setName] = useState("");
   const [expiry, setExpiry] = useState("");
   const [discount, setDiscount] = useState("");
   const [loading, setLoading] = useState("");
-  const [coupons, setCoupons] = useState([]);
+  const [offers, setOffers] = useState([]);
+  const [categories, setCategories] = useState('');
+  const [category, setCategory] = useState("");
+
+  console.log(expiry)
+  console.log(categories)
+  
+
+  const history = useHistory();
 
   // redux
   const { user } = useSelector((state) => ({ ...state }));
 
   useEffect(() => {
-    loadAllCoupons();
+    loadAllOffers();
+    loadCategories();
+
   }, []);
 
-  const loadAllCoupons = () => getCoupons().then((res) => setCoupons(res.data));
+  const loadAllOffers = () => getOffers().then((res) => setOffers(res.data));
+
+  const loadCategories = () =>
+    getCategories().then((c) => setCategories(c.data ));
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
     // console.table(name, expiry, discount);
-    createCoupon({ name, expiry, discount }, user.token)
+    createOffer({ name, expiry, discount, category:category }, user.token)
       .then((res) => {
         setLoading(false);
-        loadAllCoupons(); // load all coupons
+        loadAllOffers(); // load all offers
         setName("");
         setDiscount("");
         setExpiry("");
-        toast.success(`"${res.data.name}" is created`);
+        toast.success(`Offer created`);
       })
-      .catch((err) => console.log("create coupon err", err));
+      .catch((err) => {toast.error('Offer already exist for the category')
+      setLoading(false)
+    })
   };
 
-  const handleRemove = (couponId) => {
+  const handleRemove = (offerId) => {
     if (window.confirm("Delete?")) {
       setLoading(true);
-      removeCoupon(couponId, user.token)
+      removeOffer(offerId, user.token)
         .then((res) => {
-          loadAllCoupons(); // load all coupons
+          loadAllOffers(); // load all offers
           setLoading(false);
-          toast.error(`Coupon "${res.data.name}" deleted`);
+          toast.error(`Offer deleted`);
         })
         .catch((err) => console.log(err));
     }
   };
+
+  // const handleCatagoryChange = (e) => {
+  //   e.preventDefault();
+  //   setCategories({ categories, [e.target.name]: e.target.value });
+  // };
 
   return (
     <div className="" style={{marginTop:'78px'}}>
@@ -66,12 +90,12 @@ const CreateCouponPage = () => {
           {loading ? (
             <h4 className="text-danger">Loading...</h4>
           ) : (
-            <h4>Coupon</h4>
+            <h4>Offer</h4>
           )}
 
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label className="text-muted">Name</label>
+              <label className="text-muted">Offer Name</label>
               <input
                 type="text"
                 className="form-control"
@@ -81,6 +105,24 @@ const CreateCouponPage = () => {
                 required
               />
             </div>
+
+            <div className="form-group">
+        <label>Category</label>
+        <select
+          name="category"
+          className="form-control"
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option>----Please select----</option>
+          {categories.length > 0 &&
+            categories.map((c) => (
+              
+              <option key={c._id} value={c._id}>
+                {c.name}
+              </option>
+            ))}
+        </select>
+      </div>
 
             <div className="form-group">
               <label className="text-muted">Discount %</label>
@@ -105,15 +147,15 @@ const CreateCouponPage = () => {
                 required
               />
             </div>
-            <div style={{textAlign:'center'}}>
-              <button className="btn btn-outline-primary" style={{borderColor:'rgb(87, 67, 67)',color:'rgb(87, 67, 67)'}}>Save</button>
+              <div style={{textAlign:'center'}}>
+                  <button className="btn btn-outline-primary" style={{borderColor:'rgb(87, 67, 67)',color:'rgb(87, 67, 67)'}}>Save</button>
 
-            </div>
+              </div>
           </form>
 
           <br />
-
-          <h4>{coupons.length} Coupons</h4>
+              
+          <h4>{offers.length} Offers</h4>
 
           <table className="table table-bordered">
             <thead className="thead-light">
@@ -126,7 +168,7 @@ const CreateCouponPage = () => {
             </thead>
 
             <tbody>
-              {coupons.map((c) => (
+              {offers.map((c) => (
                 <tr key={c._id}>
                   <td>{c.name}</td>
                   <td>{new Date(c.expiry).toLocaleDateString()}</td>
@@ -147,4 +189,4 @@ const CreateCouponPage = () => {
   );
 };
 
-export default CreateCouponPage;
+export default CreateOfferPage;

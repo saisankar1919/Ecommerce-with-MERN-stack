@@ -3,7 +3,9 @@ const Product = require("../models/product");
 const Cart = require("../models/cart");
 const Coupon = require("../models/coupon");
 const Order = require("../models/order");
+const Address = require("../models/address")
 const uniqueid = require("uniqueid");
+const address = require("../models/address");
 
 exports.userCart = async (req, res) => {
   // console.log(req.body); // {cart: []}
@@ -74,13 +76,28 @@ exports.emptyCart = async (req, res) => {
   res.json(cart);
 };
 
-exports.saveAddress = async (req, res) => {
-  const userAddress = await User.findOneAndUpdate(
-    { email: req.user.email },
-    { address: req.body.address }
-  ).exec();
+// exports.saveAddress = async (req, res) => {
+//   const userAddress = await User.findOneAndUpdate(
+//     { email: req.user.email },
+//     { address: req.body.address }dsc
+//   ).exec();
 
-  res.json({ ok: true });
+//   res.json({ ok: true });
+// };
+
+exports.saveAddress = async (req, res) => {
+  try {
+    console.log(req.body);
+    // req.body.slug = slugify(req.body.title);
+    const newAddress = await new User(req.body).save();
+    res.json(newAddress);
+  } catch (err) {
+    console.log(err);
+    // res.status(400).send("Create product failed");
+    res.status(400).json({
+      err: err.message,
+    });
+  }
 };
 
 exports.applyCouponToUserCart = async (req, res) => {
@@ -120,14 +137,61 @@ exports.applyCouponToUserCart = async (req, res) => {
   res.json(totalAfterDiscount);
 };
 
-exports.createOrder = async (req, res) => {
-  // console.log(req.body);
-  // return;
-  const { paymentIntent } = req.body.stripeResponse;
+exports.createAddress = async(req,res)=>{
+  console.log("lflglr",req.user)
+  const user = await User.findOne({email:req.user.email}).exec();
+  console.log(user)
+  const {housename,city,zip,district,state,country} = req.body.address
+  let newAddress = await Address({
+    user:user._id,
+    housename:housename,
+    city:city,
+    zip:zip,
+    district:district,
+    state:state,
+    country:country,
+  }).save().then(()=>{
+  console.log('newAddress saved');
+  res.json({ ok: true });
+})
+}
 
+exports.getAddress = async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec();
 
+  let address = await Address.findOne({ user: user._id })
+    // .populate("products.product", "_id title price totalAfterDiscount")
+    .exec()
+    console.log(address)
+    // const { housename, city, zip, district, state, country } = address;
+    // console.log(housename)
+    res.json({ address });
+
+};
+
+// exports.getAddress = async(req,res)=>{
+//   console.log('here')
+//   console.log(req.user)
+//   const user = await User.findOne({ email: req.user.email }).exec();
+//   const address = await Address.find({user:user._id}).exec().then((res)=>{
+//     res.json({address})
+//   })
+// }
+
+exports.createOrder = async (req, res) => {
+  // console.log(req.body);
+  console.log(req.body.stripeResponse)
+  
+  // const { paymentIntent } = req.body.stripeResponse;
+  const paymentIntent = req.body.stripeResponse
+  console.log('**************',paymentIntent)
+  
+
+  const user = await User.findOne({ email: req.user.email }).exec();
+  console.log(user)
+
   let { products } = await Cart.findOne({ orderdBy: user._id }).exec();
+  console.log(products)
 
   let newOrder = await new Order({
     products,

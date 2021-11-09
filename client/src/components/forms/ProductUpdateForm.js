@@ -139,7 +139,7 @@ const ProductUpdateForm = ({
         </select>
       </div>
 
-      <div>
+      {/* <div>
         <label>Sub Categories</label>
         <Select
           mode="multiple"
@@ -155,10 +155,13 @@ const ProductUpdateForm = ({
               </Option>
             ))}
         </Select>
-      </div>
+      </div> */}
 
       <br />
-      <button className="btn btn-outline-info">Save</button>
+      <div style={{textAlign:'center'}}>
+              <button className="btn btn-outline-info" style={{color:'rgb(87 67 67)',borderColor:'rgb(87 67 67)'}}>Save</button>
+
+      </div>
     </form>
   );
 };
