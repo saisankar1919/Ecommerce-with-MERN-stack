@@ -12,6 +12,10 @@ const userSchema = new mongoose.Schema(
     images: {
       type: String,
     },
+    status: {
+      type: Boolean,
+      default: true,
+    },
     role: {
       type: String,
       default: "subscriber",

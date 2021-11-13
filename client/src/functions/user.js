@@ -18,6 +18,23 @@ export const getUserCart = async (authtoken) =>
     },
   });
 
+export const getUsers = async(authtoken) =>
+  await axios.get(`${process.env.REACT_APP_API}/user/getusers`, {
+    headers: {
+      authtoken,
+    },
+  });
+
+export const blockUser = async(id) =>
+  await axios.put(`${process.env.REACT_APP_API}/user/blockuser`, {
+  id,
+});
+
+export const unblockUser = async(id) =>
+  await axios.put(`${process.env.REACT_APP_API}/user/unblockuser`,  {
+    id,
+  });
+
 export const emptyUserCart = async (authtoken) =>
   await axios.delete(`${process.env.REACT_APP_API}/user/cart`, {
     headers: {

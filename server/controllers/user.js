@@ -292,6 +292,25 @@ exports.updateMobile = async(req,res) =>{
   const user = await User.findOneAndUpdate({email:req.user.email},{$set:{phone:mobile}}).exec()
 }
 
+exports.userBlock = async(req,res) =>{
+  const {id} = req.body
+  console.log('here')
+  const user = await User.findOneAndUpdate({_id:id},{status:false}).exec()
+  res.json(user)
+}
+
+exports.userUnblock = async(req,res) =>{
+  const {id} = req.body
+  const user = await User.findOneAndUpdate({_id:id},{status:true}).exec()
+  res.json(user)
+}
+
+
+exports.getUsers = async(req,res) => {
+  const users = await User.find({}).exec()
+    res.json(users)
+  }
+
 
 
 exports.createCashOrder = async (req, res) => {

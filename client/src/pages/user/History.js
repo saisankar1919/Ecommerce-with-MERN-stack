@@ -63,6 +63,7 @@ const History = () => {
       document={<Invoice order={order} />}
       fileName="invoice_Brand24.pdf"
       className="btn btn-sm btn-block btn-outline-primary"
+      style={{borderColor:'rgb(87 67 67)', color:'rgb(87 67 67)'}}
     >
       Download PDF
     </PDFDownloadLink>
@@ -70,7 +71,7 @@ const History = () => {
 
   const showEachOrders = () =>
     orders.reverse().map((order, i) => (
-      <div key={i} className="m-5 p-3 card">
+      <div key={i} className="m-5 p-3 card" style={{backgroundColor:'rgb(217, 204, 204)'}}>
         <ShowPaymentInfo order={order} />
         {showOrderInTable(order)}
         <div className="row">

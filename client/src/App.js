@@ -41,6 +41,7 @@ import AdminHeader from "./components/nav/AdminHeader";
 import SalesReport from './pages/admin/SalesReport'
 import AdminChartPage from "./pages/admin/AdminChartPage";
 import Profile from "./pages/user/Profile";
+import UserManagement from "./pages/admin/UserManagement";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -98,6 +99,7 @@ const App = () => {
         <AdminRoute exact path="/admin/chart" component={AdminChartPage} />
         <AdminRoute exact path="/admin/report" component={SalesReport} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
+
         <AdminRoute
           exact
           path="/admin/category/:slug"
@@ -107,6 +109,8 @@ const App = () => {
         <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
         <AdminRoute exact path="/admin/product" component={ProductCreate} />
         <AdminRoute exact path="/admin/products" component={AllProducts} />
+        <AdminRoute exact path="/admin/usermanagement" component={UserManagement} />
+
         <AdminRoute
           exact
           path="/admin/product/:slug"

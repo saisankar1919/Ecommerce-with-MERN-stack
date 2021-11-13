@@ -24,6 +24,9 @@ const {
   createCashOrder,
   deleteAddress,
   updateProfileImage,
+  userBlock,
+  userUnblock,
+  getUsers,
 } = require("../controllers/user");
 
 router.post("/user/cart", authCheck, userCart); // save cart
@@ -31,11 +34,15 @@ router.get("/user/cart", authCheck, getUserCart); // get cart
 router.delete("/user/cart", authCheck, emptyCart); // empty cart
 router.post("/user/address", authCheck, createAddress);
 router.get("/user/getaddress", authCheck, getAddress);
-router.put("/user/deleteaddress/:addid",authCheck, deleteAddress)
 router.get("/user/profile/getuser",authCheck, getUser)
+router.put("/user/deleteaddress/:addid",authCheck, deleteAddress)
 router.put("/user/profile/updatename",authCheck, updateName)
 router.put("/user/profile/updatemobile",authCheck, updateMobile)
 router.put("/user/profile/image",authCheck, updateProfileImage)
+router.get("/user/getusers",authCheck, getUsers);
+router.put("/user/blockuser", userBlock)
+router.put("/user/unblockuser", userUnblock)
+
 
 
 router.post("/user/order", authCheck, createOrder); // stripe
