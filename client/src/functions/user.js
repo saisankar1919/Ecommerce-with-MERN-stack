@@ -58,22 +58,9 @@ export const createOrder = async (stripeResponse, authtoken) =>
       },
     }
   );
-  export const getAddress = async (authtoken) =>{
-    console.log(authtoken)
-  await axios.get(`${process.env.REACT_APP_API}/user/getaddress`, {
-    headers: {
-      authtoken,
-    },
-  });}
+export const getAddress = authtoken =>  axios.get(`${process.env.REACT_APP_API}/user/getaddress`, { headers: { authtoken,}})    
 
-  // export const getAddress = async(authtoken) =>{
-   
-  //   await axios.get(`${process.env.REACT_APP_API}/user/getaddress`,{
-  //     header:{
-  //       authtoken
-  //     },
-  //   })
-  // }
+
 
   export const createAddress = async(address, authtoken) =>{
     await axios.post(`${process.env.REACT_APP_API}/user/address`,
@@ -93,11 +80,23 @@ export const getUserOrders = async (authtoken) =>
   });
 
 export const getWishlist = async (authtoken) =>
-  await axios.get(`${process.env.REACT_APP_API}/user/wishlist`, {
+  await axios.get(`${process.env.REACT_APP_API}/user/wishlist`,{}, {
     headers: {
       authtoken,
     },
   });
+
+  export const deleteAddress = async (addressId, authtoken)=>
+  await axios.put(
+    `${process.env.REACT_APP_API}/user/deleteaddress/${addressId}`,
+    {},
+    {
+      headers: {
+        authtoken,
+      },
+    }
+  );
+  
 
 export const removeWishlist = async (productId, authtoken) =>
   await axios.put(

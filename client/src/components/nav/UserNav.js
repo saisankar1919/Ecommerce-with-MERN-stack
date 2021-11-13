@@ -11,6 +11,12 @@ const UserNav = () => (
       </li>
 
       <li className="nav-item">
+        <Link style={{color:'black'}} to="/user/profile" className="nav-link">
+          Profile Details
+        </Link>
+      </li>
+
+      <li className="nav-item">
         <Link style={{color:'black'}} to="/user/password" className="nav-link">
           Change Password
         </Link>
@@ -21,6 +27,8 @@ const UserNav = () => (
           Wishlist
         </Link>
       </li>
+
+
     </ul>
   </nav>
 );

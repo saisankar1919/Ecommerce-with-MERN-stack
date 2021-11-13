@@ -7,6 +7,9 @@ const { authCheck } = require("../middlewares/auth");
 // controllers
 const {
   userCart,
+  getUser,
+  updateName,
+  updateMobile,
   getUserCart,
   emptyCart,
   saveAddress,
@@ -19,6 +22,8 @@ const {
   wishlist,
   removeFromWishlist,
   createCashOrder,
+  deleteAddress,
+  updateProfileImage,
 } = require("../controllers/user");
 
 router.post("/user/cart", authCheck, userCart); // save cart
@@ -26,6 +31,12 @@ router.get("/user/cart", authCheck, getUserCart); // get cart
 router.delete("/user/cart", authCheck, emptyCart); // empty cart
 router.post("/user/address", authCheck, createAddress);
 router.get("/user/getaddress", authCheck, getAddress);
+router.put("/user/deleteaddress/:addid",authCheck, deleteAddress)
+router.get("/user/profile/getuser",authCheck, getUser)
+router.put("/user/profile/updatename",authCheck, updateName)
+router.put("/user/profile/updatemobile",authCheck, updateMobile)
+router.put("/user/profile/image",authCheck, updateProfileImage)
+
 
 router.post("/user/order", authCheck, createOrder); // stripe
 router.post("/user/cash-order", authCheck, createCashOrder); // cod

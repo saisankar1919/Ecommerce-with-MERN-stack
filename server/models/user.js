@@ -9,9 +9,16 @@ const userSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    images: {
+      type: String,
+    },
     role: {
       type: String,
       default: "subscriber",
+    },
+    phone: {
+      type: Number,
+     
     },
     cart: {
       type: Array,

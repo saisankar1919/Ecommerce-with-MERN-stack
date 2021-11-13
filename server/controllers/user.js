@@ -159,7 +159,7 @@ exports.createAddress = async(req,res)=>{
 exports.getAddress = async (req, res) => {
   const user = await User.findOne({ email: req.user.email }).exec();
 
-  let address = await Address.findOne({ user: user._id })
+  let address = await Address.find({ user: user._id })
     // .populate("products.product", "_id title price totalAfterDiscount")
     .exec()
     console.log(address)
@@ -168,6 +168,14 @@ exports.getAddress = async (req, res) => {
     res.json({ address });
 
 };
+
+exports.deleteAddress = async (req,res)=>{
+  const { addressId } = req.params;
+  const user = await User.findOne({email:req.user.email}).exec();
+
+  let address = await Address.findOneAndRemove({_id:addressId}).exec()
+  res.json(address);
+}
 
 // exports.getAddress = async(req,res)=>{
 //   console.log('here')
@@ -257,6 +265,35 @@ exports.removeFromWishlist = async (req, res) => {
   res.json({ ok: true });
 };
 
+exports.getUser = async(req,res) =>{
+  console.log(req.user)
+  const user = await User.findOne({email: req.user.email}).exec()
+  res.json({user})
+}
+
+exports.updateName = async(req,res) =>{
+  console.log('here')
+  const {name} = req.body
+  console.log(name)
+
+  const user = await User.findOneAndUpdate({email:req.user.email},{name:name})
+
+}
+
+exports.updateProfileImage = async(req,res)=>{
+  console.log('upload image in user database')
+  const {url} = req.body
+  const user = await User.findOneAndUpdate({email:req.user.email},{$set:{images:url}}).exec().then((res)=>console.log(res))
+  .catch((err)=>console.log(err))
+}
+
+exports.updateMobile = async(req,res) =>{
+  const {mobile} = req.body
+  const user = await User.findOneAndUpdate({email:req.user.email},{$set:{phone:mobile}}).exec()
+}
+
+
+
 exports.createCashOrder = async (req, res) => {
   const { COD, couponApplied } = req.body;
   // if COD is true, create order with status of Cash On Delivery
@@ -305,3 +342,5 @@ exports.createCashOrder = async (req, res) => {
   console.log("NEW ORDER SAVED", newOrder);
   res.json({ ok: true });
 };
+
+

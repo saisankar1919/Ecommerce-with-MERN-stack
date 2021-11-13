@@ -8,12 +8,14 @@ import {
   saveUserAddress,
   applyCoupon,
   getAddress,
+  deleteAddress,
   createCashOrderForUser,
 } from "../functions/user";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./Checkout.css";
 import { createAddress } from "../functions/user";
+import { MdDelete } from "react-icons/md";
 
 const Checkout = ({ history }) => {
   const [products, setProducts] = useState([]);
@@ -32,9 +34,9 @@ const Checkout = ({ history }) => {
   console.log(address);
 
   const [gettedAddress, setGettedAddress] = useState();
+  console.log(gettedAddress)
 
   const [addressSaved, setAddressSaved] = useState(false);
-  console.log(addressSaved);
   const [coupon, setCoupon] = useState("");
   // discount price
   const [totalAfterDiscount, setTotalAfterDiscount] = useState(0);
@@ -43,21 +45,36 @@ const Checkout = ({ history }) => {
   const dispatch = useDispatch();
   const { user, COD } = useSelector((state) => ({ ...state }));
   const couponTrueOrFalse = useSelector((state) => state.coupon);
+  const [add, setAdd] = useState(false)
+  
+  
+  
+  useEffect(async() => {
+    loadcart();
+    loadAddress();
+    }, []);
 
-  useEffect(() => {
-    getUserCart(user.token).then((res) => {
+    const loadcart = ()=>{
+       getUserCart(user.token).then(async(res) => {
       console.log("user cart res", JSON.stringify(res.data, null, 4));
-      // getAddress(user.token).then((res)=>{console.log(res)})
       setProducts(res.data.products);
       setTotal(res.data.cartTotal);
+      
+      
     });
+    }
 
-    //  getUserAddress()
-    // getAddress(user.token).then((res)=>{
-    //   console.log(res)
-    //   setGettedAddress(res);
-    // })
-  }, []);
+    const loadAddress = async()=>{
+      await getAddress(user.token).then((res)=>{ 
+        setGettedAddress(res.data.address)
+      })
+       .catch((err)=>{console.log(err)})
+    }
+
+  // const getUserAddress = async()=>{
+  //   console.log('here')
+     
+  // }
 
   const emptyCart = () => {
     // remove from local storage
@@ -89,13 +106,7 @@ const Checkout = ({ history }) => {
   //   });
   // };
 
-  // const getUserAddress = ()=>{
-  //   // e.preventDefault();
-  //    getAddress(user.token).then((data)=>{
-  //     //console.log(data)
-  //     setAddressSaved(data);
-  //   })
-  // }
+
 
   const saveAddressToDb = (e) => {
     e.preventDefault();
@@ -110,7 +121,10 @@ const Checkout = ({ history }) => {
           setAddressSaved(true);
           toast.success("Address saved");
           // window.location.reload();
+          setAdd(false)
+          loadAddress();
           history.push("/checkout");
+         
         })
         .catch((err) => {
           console.log(err);
@@ -152,26 +166,37 @@ const Checkout = ({ history }) => {
     });
   };
 
+  const deleteAddressHandler = (addressId)=>{
+    deleteAddress(addressId, user.token).then((res)=>
+    {
+      loadAddress();
+      toast.error('address deleted')})
+  }
+
+  const close =()=>{
+    setAdd(false)
+  }
+
+ const addHandler = ()=>{
+   setAdd(true)
+ }
+
+ const onValueChange = ()=>{
+  setAddressSaved(true)
+ }
+
   const showAddress = () => (
     <>
-      {/* <ReactQuill theme="snow" value={address} onChange={setAddress} />
-      {/* <ReactQuill theme="snow" value={address.street} onChange={setAddress} />
-      <ReactQuill theme="snow" value={address.city} onChange={setAddress} />
-      <ReactQuill theme="snow" value={address.district} onChange={setAddress} />
-      <ReactQuill theme="snow" value={address.state} onChange={setAddress} /> */}
-      {/* <button
-        className="btn btn-primary mt-2 float-right"
-        onClick={saveAddressToDb}
-      >
-        Save
-      </button> */}
-
-      <form action="" onSubmit={saveAddressToDb}>
+    {add &&(<form action="" onSubmit={saveAddressToDb}>
+      <div>
+        <button onClick={close} className='btn btn-primary' style={{float:'right', color:'black'}}>X</button>
+      </div>
         <div class="form-group">
           <input
             value={address.housename}
             name="housename"
             onChange={handleChange}
+            maxlength="20" oninput="this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')"
             type="houseName"
             class="form-control"
             id="autocomplete"
@@ -181,6 +206,7 @@ const Checkout = ({ history }) => {
 
           <input
             value={address.city}
+            maxlength="20" oninput="this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')"
             name="city"
             onChange={handleChange}
             type="city"
@@ -193,6 +219,7 @@ const Checkout = ({ history }) => {
             value={address.zip}
             pattern="[0-9]*"
             maxLength="6"
+            oninput="this.value=this.value.replace(/[^\d]/,'')"
             name="zip"
             type="zip"
             class="form-control"
@@ -203,6 +230,7 @@ const Checkout = ({ history }) => {
           />
           <input
             value={address.state}
+            maxlength="20" oninput="this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')"
             name="state"
             type="state"
             class="form-control"
@@ -214,6 +242,7 @@ const Checkout = ({ history }) => {
 
           <input
             value={address.district}
+            maxlength="20" oninput="this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')"
             name="district"
             type="district"
             class="form-control"
@@ -224,6 +253,7 @@ const Checkout = ({ history }) => {
 
           <input
             value={address.country}
+            maxlength="20" oninput="this.value=this.value.replace(/[^A-Za-z-,.;'&/.() ]|^ /g,'')"
             name="country"
             type="country"
             class="form-control"
@@ -241,7 +271,21 @@ const Checkout = ({ history }) => {
         </button> 
         </div>
         
-      </form>
+      </form>)}
+        <div>
+       { gettedAddress?.map((a)=>
+       <div>
+      <input type="radio" value={a._id} name={a._id} onChange={onValueChange}/> 
+       <p>{a.housename},{a.city},{a.zip},{a.district},
+       {a.state},{a.country} 
+       <MdDelete onClick={()=>deleteAddressHandler(a._id)} style={{float:"right",color:'red',cursor:'pointer'}}/></p>
+       </div>
+       
+       ) }
+       {gettedAddress?.length<4 && (<div><button className='btn btn-outlined-primary' onClick={addHandler} style={{float:'right'}}>Add address</button></div>)}
+        
+      </div>
+      
     </>
   );
 
