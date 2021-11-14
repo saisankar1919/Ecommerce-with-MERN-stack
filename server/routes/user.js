@@ -35,7 +35,7 @@ router.delete("/user/cart", authCheck, emptyCart); // empty cart
 router.post("/user/address", authCheck, createAddress);
 router.get("/user/getaddress", authCheck, getAddress);
 router.get("/user/profile/getuser",authCheck, getUser)
-router.put("/user/deleteaddress/:addid",authCheck, deleteAddress)
+router.put("/user/deleteaddress",authCheck, deleteAddress)
 router.put("/user/profile/updatename",authCheck, updateName)
 router.put("/user/profile/updatemobile",authCheck, updateMobile)
 router.put("/user/profile/image",authCheck, updateProfileImage)

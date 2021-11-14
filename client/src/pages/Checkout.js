@@ -120,6 +120,16 @@ const Checkout = ({ history }) => {
           console.log(res);
           setAddressSaved(true);
           toast.success("Address saved");
+          setAddress({
+            ...address,
+            housename: '',
+            street: '',
+            city: '',
+            zip: '',
+            district: '',
+            state: '',
+            country: '',
+          });
           // window.location.reload();
           setAdd(false)
           loadAddress();

@@ -170,7 +170,8 @@ exports.getAddress = async (req, res) => {
 };
 
 exports.deleteAddress = async (req,res)=>{
-  const { addressId } = req.params;
+  const { addressId } = req.body;
+  console.log(addressId)
   const user = await User.findOne({email:req.user.email}).exec();
 
   let address = await Address.findOneAndRemove({_id:addressId}).exec()

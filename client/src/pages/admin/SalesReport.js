@@ -149,7 +149,16 @@ const SalesReport = () => {
             </button>
           </div>
           <div className="row">
-            <div className="col-md-2">
+            <div className="col-md-1">
+              <button className='btn btn-outline-primary' style={{borderColor:'rgb(87 67 67)',color:"rgb(87 67 67)"}}>Monthly</button>
+            </div>
+            <div className="col-md-1">
+              <button className='btn btn-outline-primary' style={{marginLeft:"7px",borderColor:'rgb(87 67 67)',color:"rgb(87 67 67)"}}>Weekly</button>
+            </div>
+            <div className="col-md-1">
+              <button className='btn btn-outline-primary' style={{borderColor:'rgb(87 67 67)',color:"rgb(87 67 67)"}}>Daily</button>
+            </div>
+            {/* <div className="col-md-2">
               <label htmlFor="startdate">From</label>
               <DatePicker
                 className="form-control"
@@ -166,10 +175,10 @@ const SalesReport = () => {
                 selected={endDate}
                 onChange={(date) => setEndDate(date)}
               />
-            </div>
-            <div className="col-md-2">
+            </div> */}
+            {/* <div className="col-md-2">
               <button className="btn btn-primary" onClick={onFilter} style={{color:'rgb(87 67 67)'}}>Filter</button>
-            </div>
+            </div> */}
           </div>
 
           <table className="table table-hover">
@@ -192,7 +201,7 @@ const SalesReport = () => {
                       <td>{p._id}</td>
                     </tr>
                   ))}
-                  <td>{o.orderStatus}</td>
+                  {o.orderStatus != 'Cancelled'?(<td>{o.orderStatus}</td>):(<td><span style={{color:'red'}}>{o.orderStatus}</span></td>)}
                   <td>{o.createdAt}</td>
                 </tr>
               ))}

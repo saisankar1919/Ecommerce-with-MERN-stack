@@ -103,16 +103,17 @@ export const getWishlist = async (authtoken) =>
     },
   });
 
-  export const deleteAddress = async (addressId, authtoken)=>
+  export const deleteAddress = async (addressId, authtoken)=>{
+    console.log(addressId)
   await axios.put(
-    `${process.env.REACT_APP_API}/user/deleteaddress/${addressId}`,
-    {},
+    `${process.env.REACT_APP_API}/user/deleteaddress`,
+    {addressId},
     {
       headers: {
         authtoken,
       },
     }
-  );
+  );}
   
 
 export const removeWishlist = async (productId, authtoken) =>

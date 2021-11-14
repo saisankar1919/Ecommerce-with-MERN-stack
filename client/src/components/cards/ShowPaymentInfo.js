@@ -25,8 +25,12 @@ const ShowPaymentInfo = ({ order, showStatus = true }) => (
       </span>
       {" / "} */}
       <br />
-      {showStatus && (
+      {showStatus && order.orderStatus !='Cancelled'?(
         <span className="badge text-white" style={{backgroundColor:'rgb(87 67 67)'}}>
+          STATUS: {order.orderStatus}
+        </span>
+      ):(
+        <span className="badge text-white" style={{backgroundColor:'red'}}>
           STATUS: {order.orderStatus}
         </span>
       )}
