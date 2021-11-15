@@ -46,6 +46,7 @@ const Checkout = ({ history }) => {
   const { user, COD } = useSelector((state) => ({ ...state }));
   const couponTrueOrFalse = useSelector((state) => state.coupon);
   const [add, setAdd] = useState(false)
+  const [formvvalue, setFormvalue] = useState()
   
   
   
@@ -191,7 +192,9 @@ const Checkout = ({ history }) => {
    setAdd(true)
  }
 
- const onValueChange = ()=>{
+ const onValueChange = (evt)=>{
+  const value = evt.target.value;
+  setFormvalue(value);
   setAddressSaved(true)
  }
 
