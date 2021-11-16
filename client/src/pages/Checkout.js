@@ -97,16 +97,6 @@ const Checkout = ({ history }) => {
     });
   };
 
-  // const saveAddressToDb = () => {
-  //   // console.log(address);
-  //   saveUserAddress(user.token, address).then((res) => {
-  //     if (res.data.ok) {
-  //       setAddressSaved(true);
-  //       toast.success("Address saved");
-  //     }
-  //   });
-  // };
-
 
 
   const saveAddressToDb = (e) => {
@@ -131,7 +121,6 @@ const Checkout = ({ history }) => {
             state: '',
             country: '',
           });
-          // window.location.reload();
           setAdd(false)
           loadAddress();
           history.push("/checkout");
@@ -139,7 +128,6 @@ const Checkout = ({ history }) => {
         })
         .catch((err) => {
           console.log(err);
-          // if (err.response.status === 400) toast.error(err.response.data);
           toast.error(err.response.data.err);
         });
     }

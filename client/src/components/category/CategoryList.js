@@ -12,8 +12,9 @@ const CategoryList = () => {
     setLoading(true);
     getCategories().then((c) => {
       setCategories(c.data);
+      console.log(c)
       setLoading(false);
-    });
+    }).catch((err)=>console.log(err,"thisi is s"));
   }, []);
 
   const showCategories = () =>
