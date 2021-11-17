@@ -38,27 +38,27 @@ const AdminChartPage = () => {
   }, []);
 
   const orderCount = () => {
-    axios.get("http://localhost:8000/api/admin/ordercount").then((res) => {
+    axios.get("https://sever.saisankar.online/api/admin/ordercount").then((res) => {
       console.log(res.data);
       setOrdercount(res.data);
     });
   };
   const userCount = () => {
-    axios.get("http://localhost:8000/api/admin/usercount").then((res) => {
+    axios.get("https://sever.saisankar.online/api/admin/usercount").then((res) => {
       console.log(res.data);
       setUsercount(res.data);
     });
   };
 
   const productCount = () => {
-    axios.get("http://localhost:8000/api/admin/productcount").then((res) => {
+    axios.get("https://sever.saisankar.online/api/admin/productcount").then((res) => {
       console.log(res.data);
       setProductcount(res.data);
     });
   };
 
   const getCategories = () =>{
-      axios.get("http://localhost:8000/api/categories").then((res)=>{
+      axios.get("https://sever.saisankar.online/api/categories").then((res)=>{
           let value = res.data
         
           setCategories(res.data)
@@ -66,7 +66,7 @@ const AdminChartPage = () => {
   }
 
   const getProducts = () =>{
-    axios.get("http://localhost:8000/api/products/listall").then((res)=>{
+    axios.get("https://sever.saisankar.online/api/products/listall").then((res)=>{
         let value = res.data
       
         setProducts(res.data)
